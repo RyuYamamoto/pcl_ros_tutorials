@@ -1,11 +1,11 @@
+#include <pcl_ros/point_cloud.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <pcl_ros/point_cloud.h>
 
+#include <pcl/filters/approximate_voxel_grid.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/registration/ndt.h>
-#include <pcl/filters/approximate_voxel_grid.h>
 
 ros::Subscriber points_cloud_subscriber_1;
 ros::Subscriber points_cloud_subscriber_2;
@@ -14,17 +14,18 @@ ros::Publisher points_cloud_publisher;
 sensor_msgs::PointCloud2::ConstPtr points_cloud1_msg = nullptr;
 sensor_msgs::PointCloud2::ConstPtr points_cloud2_msg = nullptr;
 
-void callbackPoints1(const sensor_msgs::PointCloud2::ConstPtr &cloud)
+void callbackPoints1(const sensor_msgs::PointCloud2::ConstPtr & cloud)
 {
   points_cloud1_msg = cloud;
 }
 
-void callbackPoints2(const sensor_msgs::PointCloud2::ConstPtr &cloud)
+void callbackPoints2(const sensor_msgs::PointCloud2::ConstPtr & cloud)
 {
   points_cloud2_msg = cloud;
 }
 
-void downsample(const pcl::PointCloud<pcl::PointXYZ>::Ptr &in, pcl::PointCloud<pcl::PointXYZ>::Ptr &out)
+void downsample(
+  const pcl::PointCloud<pcl::PointXYZ>::Ptr & in, pcl::PointCloud<pcl::PointXYZ>::Ptr & out)
 {
   pcl::ApproximateVoxelGrid<pcl::PointXYZ> filter;
   filter.setLeafSize(0.2, 0.2, 0.2);
@@ -32,9 +33,9 @@ void downsample(const pcl::PointCloud<pcl::PointXYZ>::Ptr &in, pcl::PointCloud<p
   filter.filter(*out);
 }
 
-void calcNDT(const ros::TimerEvent& e)
+void calcNDT(const ros::TimerEvent & e)
 {
-  if(points_cloud1_msg == nullptr && points_cloud2_msg == nullptr) return;
+  if (points_cloud1_msg == nullptr && points_cloud2_msg == nullptr) return;
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr points_cloud1(new pcl::PointCloud<pcl::PointXYZ>());
   pcl::PointCloud<pcl::PointXYZ>::Ptr filtered_cloud(new pcl::PointCloud<pcl::PointXYZ>());
@@ -69,7 +70,7 @@ void calcNDT(const ros::TimerEvent& e)
   points_cloud_publisher.publish(output_msg);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
   ros::init(argc, argv, "normal_distributions_transform_node");
 

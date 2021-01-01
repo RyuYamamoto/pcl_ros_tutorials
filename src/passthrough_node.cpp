@@ -1,13 +1,13 @@
+#include <pcl/filters/passthrough.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <pcl/point_types.h>
-#include <pcl/filters/passthrough.h>
-#include <pcl_conversions/pcl_conversions.h>
 
 ros::Publisher point_pub;
 ros::Subscriber point_sub;
 
-void points_callback(const sensor_msgs::PointCloud2::ConstPtr &msg)
+void points_callback(const sensor_msgs::PointCloud2::ConstPtr & msg)
 {
   sensor_msgs::PointCloud2 output;
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
