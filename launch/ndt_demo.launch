@@ -1,0 +1,18 @@
+<launch>
+  <arg name="pcd_path_1" default="$(find pcl_ros_tutorials)/data/room_scan1.pcd"/>
+  <arg name="pcd_path_2" default="$(find pcl_ros_tutorials)/data/room_scan2.pcd"/>
+
+  <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_to_pointcloud_1" args="$(arg pcd_path_1) 0.1">
+    <param name="frame_id" value="map"/>
+    <remap from="cloud_pcd" to="pointcloud_1"/>
+  </node>
+
+  <node pkg="pcl_ros" type="pcd_to_pointcloud" name="pcd_to_pointcloud_2" args="$(arg pcd_path_2) 0.1">
+    <param name="frame_id" value="map"/>
+    <remap from="cloud_pcd" to="pointcloud_2"/>
+  </node>
+
+  <node pkg="pcl_ros_tutorials" type="normal_distributions_transform_node" name="normal_distributions_transform_node" output="screen"/>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pcl_ros_tutorials)/config/ndt_demo.rviz"/>
+</launch>

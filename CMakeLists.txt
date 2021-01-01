@@ -20,3 +20,6 @@ target_link_libraries(passthrough_node ${catkin_LIBRARIES})
 
 add_executable(voxel_grid_filter_node src/voxel_grid_filter_node.cpp)
 target_link_libraries(voxel_grid_filter_node ${catkin_LIBRARIES})
+
+add_executable(normal_distributions_transform_node src/normal_distributions_transform_node.cpp)
+target_link_libraries(normal_distributions_transform_node ${catkin_LIBRARIES})
